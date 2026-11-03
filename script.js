@@ -81,3 +81,24 @@ function renderExpenses(expensesToRender = tracker.expenses) {
     });
   });
 }
+addBtn.addEventListener("click", () => {
+  const description = descInput.value.trim();
+  const amount = amountInput.value;
+  const category = categoryInput.value;
+
+  if (!description || !amount || !category) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  tracker.addExpense({ description, amount, category });
+  descInput.value = "";
+  amountInput.value = "";
+  renderExpenses(tracker.filterByCategory(filterCategory.value));
+});
+
+filterCategory.addEventListener("change", () => {
+  renderExpenses(tracker.filterByCategory(filterCategory.value));
+});
+
+
