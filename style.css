@@ -17,3 +17,8 @@ body{
 h1 {
   text-align: center;
 }
+.form-card {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
