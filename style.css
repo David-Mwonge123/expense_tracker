@@ -40,3 +40,7 @@ button {
   align-items: center;
   margin-bottom: 15px;
 }
+.total {
+  font-weight: bold;
+  font-size: 18px;
+}
