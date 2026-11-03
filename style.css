@@ -34,3 +34,9 @@ button {
   background: rgb(0, 0, 0);
   color: white;
 }
+.tracker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
