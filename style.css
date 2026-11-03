@@ -44,3 +44,20 @@ button {
   font-weight: bold;
   font-size: 18px;
 }
+#expense-list {
+  list-style: none;
+  padding: 0;
+}
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid black;
+}
+.expense-item button {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
