@@ -57,3 +57,27 @@ const addBtn = document.getElementById("add-btn");
 const listExpense = document.getElementById("expense-list");
 const totalAmount = document.getElementById("total-amount");
 const filterCategory = document.getElementById("filter-category");
+
+function renderExpenses(expensesToRender = tracker.expenses) {
+  listExpense.innerHTML = "";
+
+  expensesToRender.map(({ id, description, amount, category }) => {
+    const li = document.createElement("li");
+    li.className = "expense-item";
+    li.innerHTML = `
+      <span><strong>${description}</strong> - ${category} - KES ${amount}</span>
+      <button data-id="${id}">Delete</button>
+    `;
+    listExpense.appendChild(li);
+  });
+
+  totalAmount.textContent = tracker.getTotal().toFixed(2);
+
+  document.querySelectorAll(".expense-item button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const id = parseInt(e.target.dataset.id);
+      tracker.removeExpense(id);
+      renderExpenses(tracker.filterByCategory(filterCategory.value));
+    });
+  });
+}
