@@ -30,3 +30,7 @@ button {
   border: 1px solid rgba(0, 0, 0, 0.08);
   font-size: 14px;
 }
+#add-btn {
+  background: rgb(0, 0, 0);
+  color: white;
+}
