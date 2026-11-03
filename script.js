@@ -48,3 +48,12 @@ class ExpenseTracker {
     return stored ? JSON.parse(stored) : [];
   }
 }
+
+const tracker = new ExpenseTracker();
+const descInput = document.getElementById("description");
+const amountInput = document.getElementById("amount");
+const categoryInput = document.getElementById("category");
+const addBtn = document.getElementById("add-btn");
+const listExpense = document.getElementById("expense-list");
+const totalAmount = document.getElementById("total-amount");
+const filterCategory = document.getElementById("filter-category");
