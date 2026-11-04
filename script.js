@@ -40,67 +40,72 @@ class ExpenseTracker {
   }
 
   saveExpenses() {
-    localStorage.setItem("expenses", JSON.stringify(this.expenses));
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("expenses", JSON.stringify(this.expenses));
+    }
   }
 
   loadExpenses() {
+    if (typeof localStorage === "undefined") return [];
     const stored = localStorage.getItem("expenses");
     return stored ? JSON.parse(stored) : [];
   }
 }
+if (typeof document !== "undefined") {
+  const tracker = new ExpenseTracker();
+  const descInput = document.getElementById("description");
+  const amountInput = document.getElementById("amount");
+  const categoryInput = document.getElementById("category");
+  const addBtn = document.getElementById("add-btn");
+  const listExpense = document.getElementById("expense-list");
+  const totalAmount = document.getElementById("total-amount");
+  const filterCategory = document.getElementById("filter-category");
 
-const tracker = new ExpenseTracker();
-const descInput = document.getElementById("description");
-const amountInput = document.getElementById("amount");
-const categoryInput = document.getElementById("category");
-const addBtn = document.getElementById("add-btn");
-const listExpense = document.getElementById("expense-list");
-const totalAmount = document.getElementById("total-amount");
-const filterCategory = document.getElementById("filter-category");
+  function renderExpenses(expensesToRender = tracker.expenses) {
+    listExpense.innerHTML = "";
 
-function renderExpenses(expensesToRender = tracker.expenses) {
-  listExpense.innerHTML = "";
-
-  expensesToRender.map(({ id, description, amount, category }) => {
-    const li = document.createElement("li");
-    li.className = "expense-item";
-    li.innerHTML = `
+    expensesToRender.map(({ id, description, amount, category }) => {
+      const li = document.createElement("li");
+      li.className = "expense-item";
+      li.innerHTML = `
       <span><strong>${description}</strong> - ${category} - KES ${amount}</span>
       <button data-id="${id}">Delete</button>
     `;
-    listExpense.appendChild(li);
-  });
-
-  totalAmount.textContent = tracker.getTotal().toFixed(2);
-
-  document.querySelectorAll(".expense-item button").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = parseInt(e.target.dataset.id);
-      tracker.removeExpense(id);
-      renderExpenses(tracker.filterByCategory(filterCategory.value));
+      listExpense.appendChild(li);
     });
-  });
-}
-addBtn.addEventListener("click", () => {
-  const description = descInput.value.trim();
-  const amount = amountInput.value;
-  const category = categoryInput.value;
 
-  if (!description || !amount || !category) {
-    alert("Please fill all fields");
-    return;
+    totalAmount.textContent = tracker.getTotal().toFixed(2);
+
+    document.querySelectorAll(".expense-item button").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const id = parseInt(e.target.dataset.id);
+        tracker.removeExpense(id);
+        renderExpenses(tracker.filterByCategory(filterCategory.value));
+      });
+    });
   }
+  addBtn.addEventListener("click", () => {
+    const description = descInput.value.trim();
+    const amount = amountInput.value;
+    const category = categoryInput.value;
 
-  tracker.addExpense({ description, amount, category });
-  descInput.value = "";
-  amountInput.value = "";
-  renderExpenses(tracker.filterByCategory(filterCategory.value));
-});
+    if (!description || !amount || !category) {
+      alert("Please fill all fields");
+      return;
+    }
 
-filterCategory.addEventListener("change", () => {
-  renderExpenses(tracker.filterByCategory(filterCategory.value));
-});
+    tracker.addExpense({ description, amount, category });
+    descInput.value = "";
+    amountInput.value = "";
+    renderExpenses(tracker.filterByCategory(filterCategory.value));
+  });
 
+  filterCategory.addEventListener("change", () => {
+    renderExpenses(tracker.filterByCategory(filterCategory.value));
+  });
+
+  renderExpenses();
+}
 if (typeof module !== "undefined") {
   module.exports = { Expense, ExpenseTracker };
 }
