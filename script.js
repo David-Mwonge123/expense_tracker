@@ -101,4 +101,6 @@ filterCategory.addEventListener("change", () => {
   renderExpenses(tracker.filterByCategory(filterCategory.value));
 });
 
-
+if (typeof module !== "undefined") {
+  module.exports = { Expense, ExpenseTracker };
+}
